@@ -1,29 +1,41 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 type PropsType = {
+    id: number
     title: string
     price: number
+    imageUrl: string
+    sizes: Array<number>
+    types: Array<number>
+    category: number
+    rating: number
 }
 
-export const PizzaBlock: React.FC<PropsType> = ({title, price}) => {
+export const PizzaBlock: React.FC<PropsType> = ({title, price, imageUrl, sizes, types}) => {
+
+    const typeNames = ['тонкое', 'традиционное']
+
+    const [activeType, setActiveType] = useState(0)
+    const [activeSize, setActiveSize] = useState(0)
+
     return (
         <div className="pizza-block">
             <img
                 className="pizza-block__image"
-                src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+                src={imageUrl}
                 alt="Pizza"
             />
             <h4 className="pizza-block__title">{title}</h4>
             <div className="pizza-block__selector">
                 <ul>
-                    <li className="active">тонкое</li>
-                    <li>традиционное</li>
+                    {types.map(type => {
+                        return <li key={type} className={activeType === type ? 'active' : ''}
+                                   onClick={() => setActiveType(type)}>{typeNames[type]}</li>
+                    })}
                 </ul>
                 <ul>
-                    <li className="active">26 см.
-                    </li>
-                    <li>30 см.</li>
-                    <li>40 см.</li>
+                    {sizes.map((s, i) => <li key={i} className={activeSize === i ? 'active' : ''}
+                                             onClick={() => setActiveSize(i)}>{s} см.</li>)}
                 </ul>
             </div>
             <div className="pizza-block__bottom">
@@ -42,7 +54,7 @@ export const PizzaBlock: React.FC<PropsType> = ({title, price}) => {
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>2</i>
+                    <i>0</i>
                 </div>
             </div>
         </div>
