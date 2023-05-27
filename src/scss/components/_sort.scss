@@ -7,11 +7,11 @@
     align-items: center;
 
     svg {
-      margin-right: 8px;
+      cursor: pointer;
     }
 
     b {
-      margin-right: 8px;
+      margin: 0 8px;
     }
 
     span {
@@ -31,6 +31,7 @@
     overflow: hidden;
     padding: 10px 0;
     width: 160px;
+    cursor: pointer;
 
     ul {
       overflow: hidden;

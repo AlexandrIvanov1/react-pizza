@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 export const api = {
-    getItems: () => {
-        return axios.get<Array<ItemType>>('https://646cf83d7b42c06c3b2c5b7d.mockapi.io/items')
+    getItems: (categoryId: number, sortType: string, sortDirection: SortDirectionType) => {
+        return axios.get<Array<ItemType>>(
+            `https://646cf83d7b42c06c3b2c5b7d.mockapi.io/items?${categoryId ? `category=${categoryId}` : ''}&sortBy=${sortType}&order=${sortDirection}`)
             .then(res => res.data)
     }
 }
@@ -17,3 +18,5 @@ export type ItemType = {
     category: number
     rating: number
 }
+
+export type SortDirectionType = 'asc' | 'desc'
