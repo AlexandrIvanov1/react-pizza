@@ -13,7 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @media (max-width: 660px) {
+    @media (max-width: 940px) {
       flex-direction: column;
     }
   }
@@ -21,7 +21,7 @@
   &__logo {
     display: flex;
 
-    @media (max-width: 660px) {
+    @media (max-width: 940px) {
       margin-bottom: 20px;
     }
 

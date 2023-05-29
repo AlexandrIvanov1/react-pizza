@@ -1,8 +1,14 @@
 import React from 'react';
 import logo from '../../assets/img/pizza-logo.svg'
 import {Link, NavLink} from 'react-router-dom';
+import {Search} from '../Search/Search';
 
-export const Header = () => {
+type PropsType = {
+    searchValue: string
+    setSearchValue: (value: string) => void
+}
+
+export const Header: React.FC<PropsType> = ({searchValue, setSearchValue}) => {
     return (
         <div className="header">
             <div className="container">
@@ -13,6 +19,9 @@ export const Header = () => {
                         <p>самая вкусная пицца во вселенной</p>
                     </div>
                 </div>
+
+                <Search searchValue={searchValue} setSearchValue={setSearchValue}/>
+
                 <div className="header__cart">
                     <NavLink to='cart' className="button button--cart">
                         <span>520 ₽</span>
