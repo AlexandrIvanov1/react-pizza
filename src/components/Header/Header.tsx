@@ -4,11 +4,11 @@ import {Link, NavLink} from 'react-router-dom';
 import {Search} from '../Search/Search';
 
 type PropsType = {
-    searchValue: string
-    setSearchValue: (value: string) => void
+    // searchValue: string
+    // setSearchValue: (value: string) => void
 }
 
-export const Header: React.FC<PropsType> = ({searchValue, setSearchValue}) => {
+export const Header: React.FC<PropsType> = () => {
     return (
         <div className="header">
             <div className="container">
@@ -20,7 +20,7 @@ export const Header: React.FC<PropsType> = ({searchValue, setSearchValue}) => {
                     </div>
                 </div>
 
-                <Search searchValue={searchValue} setSearchValue={setSearchValue}/>
+                <Search />
 
                 <div className="header__cart">
                     <NavLink to='cart' className="button button--cart">
