@@ -1,32 +1,40 @@
 import React, {useState} from 'react';
 import style from './Sort.module.css'
 import {SortDirectionType} from '../../api/api';
+import {useDispatch} from 'react-redux';
+import {changeSortDirection, changeSortType} from '../../store/filter-slice';
 
 type PropsType = {
     sortId: number
-    setSortId: (value: number) => void
     sortDirection: SortDirectionType
-    setSortDirection: (value: SortDirectionType) => void
 }
 
-export const Sort: React.FC<PropsType> = ({sortId, setSortId, sortDirection, setSortDirection}) => {
+export const Sort: React.FC<PropsType> = ({sortId, sortDirection}) => {
 
     const [showSort, setShowSort] = useState(false)
+
+    const dispatch = useDispatch()
 
     const list = ['популярности', 'цене', 'алфавиту']
 
     let sortName = list[sortId]
 
     const onClickHandler = (item: number) => {
-        setSortId(item)
+        dispatch(changeSortType({sortType: item}))
         setShowSort(false)
+    }
+
+    const onChangeSortHandler = () => {
+        sortDirection === 'asc'
+            ? dispatch(changeSortDirection({sortDirection: 'desc'}))
+            : dispatch(changeSortDirection({sortDirection: 'asc'}))
     }
 
     return (
         <div className="sort">
             <div className="sort__label">
                 <svg
-                    onClick={() => sortDirection === 'asc' ? setSortDirection('desc') : setSortDirection('asc')}
+                    onClick={onChangeSortHandler}
                     width="10"
                     height="6"
                     viewBox="0 0 10 6"

@@ -3,7 +3,9 @@ import {Sort} from '../components/Sort/Sort';
 import {Skeleton} from '../components/PizzaBlock/Skeleton';
 import {PizzaBlock} from '../components/PizzaBlock/PizzaBlock';
 import React, {useEffect, useState} from 'react';
-import {api, ItemType, SortDirectionType} from '../api/api';
+import {api, ItemType} from '../api/api';
+import {useSelector} from 'react-redux';
+import {selectCategoryId, selectSortDirection, selectSortType} from '../store/filter-selector';
 
 type PropsType = {
     searchValue: string
@@ -11,14 +13,14 @@ type PropsType = {
 
 export const Home: React.FC<PropsType> = ({searchValue}) => {
 
+    const categoryId = useSelector(selectCategoryId)
+
+    const sortType = useSelector(selectSortType)
+
+    const sortDirection = useSelector(selectSortDirection)
+
     const [items, setItems] = useState<Array<ItemType>>([])
     const [isLoading, setIsLoading] = useState(false)
-
-    const [categoryId, setCategoryId] = useState(0)
-
-    const [sortType, setSortType] = useState(0)
-
-    const [sortDirection, setSortDirection] = useState<SortDirectionType>('asc')
 
     useEffect(() => {
         const sort = sortType === 0 ? 'rating' : sortType === 1 ? 'price' : 'title'
@@ -39,13 +41,11 @@ export const Home: React.FC<PropsType> = ({searchValue}) => {
         <div className="container">
             <div className="content__top">
 
-                <Categories category={categoryId} setCategory={setCategoryId}/>
+                <Categories category={categoryId} />
 
                 <Sort
                     sortId={sortType}
-                    setSortId={setSortType}
                     sortDirection={sortDirection}
-                    setSortDirection={setSortDirection}
                 />
 
             </div>

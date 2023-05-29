@@ -1,19 +1,27 @@
 import React from 'react';
+import {useDispatch} from 'react-redux';
+import {changeCategoryId} from '../../store/filter-slice';
 
 type PropsType = {
     category: number
-    setCategory: (value: number) => void
 }
 
-export const Categories: React.FC<PropsType> = ({category, setCategory}) => {
+export const Categories: React.FC<PropsType> = ({category}) => {
+
     const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
+
+    const dispatch = useDispatch()
+
+    const onClickHandler = (categoryId: number) => {
+        dispatch(changeCategoryId({categoryId}))
+    }
 
     return (
         <div className="categories">
             <ul>
                 {categories.map((c, i) => <li key={i}
                                               className={category === i ? 'active' : ''}
-                                              onClick={() => setCategory(i)}
+                                              onClick={() => onClickHandler(i)}
                     >{c}</li>
                 )}
             </ul>
