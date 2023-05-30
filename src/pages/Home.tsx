@@ -5,7 +5,7 @@ import {PizzaBlock} from '../components/PizzaBlock/PizzaBlock';
 import React, {useEffect, useState} from 'react';
 import {api, ItemType} from '../api/api';
 import {useSelector} from 'react-redux';
-import {selectCategoryId, selectSortDirection, selectSortType} from '../store/filter-selector';
+import {selectCategoryId, selectCurrentPage, selectSortDirection, selectSortType} from '../store/filter-selector';
 import {Pagination} from '../components/Pagination/Pagination';
 
 type PropsType = {
@@ -15,15 +15,12 @@ type PropsType = {
 export const Home: React.FC<PropsType> = ({searchValue}) => {
 
     const categoryId = useSelector(selectCategoryId)
-
     const sortType = useSelector(selectSortType)
-
     const sortDirection = useSelector(selectSortDirection)
+    const currentPage = useSelector(selectCurrentPage)
 
     const [items, setItems] = useState<Array<ItemType>>([])
     const [isLoading, setIsLoading] = useState(false)
-
-    const [currentPage, setCurrentPage] = useState(1)
 
     useEffect(() => {
         const sort = sortType === 0 ? 'rating' : sortType === 1 ? 'price' : 'title'
@@ -33,18 +30,18 @@ export const Home: React.FC<PropsType> = ({searchValue}) => {
                 setItems([...res])
                 setIsLoading(false)
             })
-        // window.scroll(0, 0)
     }, [currentPage, categoryId, sortType, sortDirection, searchValue])
 
     const skeletons = [...new Array(8)].map((item, i) => <Skeleton key={i}/>)
 
-    const pizzas = items.filter(p => p.title.toLowerCase().includes(searchValue.toLowerCase())).map(p => <PizzaBlock key={p.id} {...p}/>)
+    const pizzas = items.filter(p => p.title.toLowerCase().includes(searchValue.toLowerCase()))
+        .map(p => <PizzaBlock key={p.id} {...p}/>)
 
     return (
         <div className="container">
             <div className="content__top">
 
-                <Categories category={categoryId} />
+                <Categories category={categoryId}/>
 
                 <Sort
                     sortId={sortType}
@@ -61,7 +58,7 @@ export const Home: React.FC<PropsType> = ({searchValue}) => {
                 }
             </div>
 
-            <Pagination setCurrentPage={setCurrentPage}/>
+            <Pagination currentPage={currentPage}/>
 
         </div>
     )

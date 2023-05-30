@@ -7,6 +7,7 @@ const slice = createSlice({
     initialState: {
         categoryId: 0,
         sortType: 0,
+        currentPage: 1,
         sortDirection: 'asc' as SortDirectionType
     },
     reducers: {
@@ -18,10 +19,13 @@ const slice = createSlice({
         },
         changeSortDirection: (state, action: PayloadAction<{sortDirection: SortDirectionType}>) => {
             state.sortDirection = action.payload.sortDirection
+        },
+        changeCurrentPage: (state, action: PayloadAction<{currentPage: number}>) => {
+            state.currentPage = action.payload.currentPage
         }
     }
 })
 
-export const {changeCategoryId, changeSortType, changeSortDirection} = slice.actions
+export const {changeCategoryId, changeSortType, changeSortDirection, changeCurrentPage} = slice.actions
 
 export const filterSlice = slice.reducer

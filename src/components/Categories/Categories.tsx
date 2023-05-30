@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
-import {changeCategoryId} from '../../store/filter-slice';
+import {changeCategoryId, changeCurrentPage} from '../../store/filter-slice';
 
 type PropsType = {
     category: number
@@ -14,6 +14,7 @@ export const Categories: React.FC<PropsType> = ({category}) => {
 
     const onClickHandler = (categoryId: number) => {
         dispatch(changeCategoryId({categoryId}))
+        dispatch(changeCurrentPage({currentPage: 1}))
     }
 
     return (
