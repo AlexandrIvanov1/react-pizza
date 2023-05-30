@@ -1,24 +1,45 @@
-import React, {ChangeEvent, useContext} from 'react';
+import React, {ChangeEvent, useCallback, useContext, useRef, useState} from 'react';
 import styles from './Search.module.scss'
 import close from '../../assets/img/close.svg'
 import search from '../../assets/img/search.svg'
 import {SearchContext} from '../../App';
+import debounce from 'lodash.debounce'
 
-type PropsType = {
-    // searchValue: string
-    // setSearchValue: (value: string) => void
-}
+type PropsType = {}
 
 export const Search: React.FC<PropsType> = () => {
 
-    const {searchValue, setSearchValue} = useContext(SearchContext)
+    const {setSearchValue} = useContext(SearchContext)
 
+    const [inputValue, setInputValue] = useState('')
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(e.currentTarget.value)
-    }
+    const inputRef = useRef<HTMLInputElement | null>(null)
+
+    // const debounce = (fn: Function, ms: number) => {
+    //     let timerId: any;
+    //     return function () {
+    //         const fnCall = () => {
+    //             // debugger
+    //             // @ts-ignore
+    //             fn.apply(this, arguments)
+    //         }
+    //         clearTimeout(timerId)
+    //         timerId = setTimeout(fnCall, ms)
+    //     }
+    // }
+
     const clearInput = () => {
-        setSearchValue('')
+        setInputValue('')
+        inputRef.current?.focus()
+    }
+
+    const updateSearchValue = useCallback(debounce((value: string) => {
+        setSearchValue(value)
+    }, 200), [])
+
+    const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.currentTarget.value)
+        updateSearchValue(e.target.value)
     }
 
     return (
@@ -26,12 +47,13 @@ export const Search: React.FC<PropsType> = () => {
             <img src={search} alt="search" className={styles.iconSearch}/>
             <input
                 type="text"
+                ref={inputRef}
                 placeholder="Search..."
                 className={styles.search}
-                value={searchValue}
-                onChange={onChangeHandler}
+                value={inputValue}
+                onChange={onChangeInput}
             />
-            {searchValue && <img src={close} alt="close" className={styles.iconClose} onClick={clearInput}/>}
+            {inputValue && <img src={close} alt="close" className={styles.iconClose} onClick={clearInput}/>}
         </div>
     )
 }

@@ -6,6 +6,7 @@ import React, {useEffect, useState} from 'react';
 import {api, ItemType} from '../api/api';
 import {useSelector} from 'react-redux';
 import {selectCategoryId, selectSortDirection, selectSortType} from '../store/filter-selector';
+import {Pagination} from '../components/Pagination/Pagination';
 
 type PropsType = {
     searchValue: string
@@ -22,16 +23,18 @@ export const Home: React.FC<PropsType> = ({searchValue}) => {
     const [items, setItems] = useState<Array<ItemType>>([])
     const [isLoading, setIsLoading] = useState(false)
 
+    const [currentPage, setCurrentPage] = useState(1)
+
     useEffect(() => {
         const sort = sortType === 0 ? 'rating' : sortType === 1 ? 'price' : 'title'
         setIsLoading(true)
-        api.getItems(categoryId, sort, sortDirection)
+        api.getItems(currentPage, categoryId, sort, sortDirection, searchValue)
             .then(res => {
                 setItems([...res])
                 setIsLoading(false)
             })
         // window.scroll(0, 0)
-    }, [categoryId, sortType, sortDirection])
+    }, [currentPage, categoryId, sortType, sortDirection, searchValue])
 
     const skeletons = [...new Array(8)].map((item, i) => <Skeleton key={i}/>)
 
@@ -57,6 +60,9 @@ export const Home: React.FC<PropsType> = ({searchValue}) => {
                         : pizzas
                 }
             </div>
+
+            <Pagination setCurrentPage={setCurrentPage}/>
+
         </div>
     )
 }
