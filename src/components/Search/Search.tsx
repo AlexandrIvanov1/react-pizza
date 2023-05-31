@@ -30,6 +30,7 @@ export const Search: React.FC<PropsType> = () => {
 
     const clearInput = () => {
         setInputValue('')
+        setSearchValue('')
         inputRef.current?.focus()
     }
 

@@ -2,11 +2,14 @@ import {Categories} from '../components/Categories/Categories';
 import {Sort} from '../components/Sort/Sort';
 import {Skeleton} from '../components/PizzaBlock/Skeleton';
 import {PizzaBlock} from '../components/PizzaBlock/PizzaBlock';
-import React, {useEffect, useState} from 'react';
-import {api, ItemType} from '../api/api';
-import {useSelector} from 'react-redux';
-import {selectCategoryId, selectCurrentPage, selectSortDirection, selectSortType} from '../store/filter-selector';
+import React, {useEffect, useRef, useState} from 'react';
+import {api, ItemType, SortDirectionType} from '../api/api';
+import {useDispatch, useSelector} from 'react-redux';
 import {Pagination} from '../components/Pagination/Pagination';
+import {useNavigate} from 'react-router-dom';
+import qs from 'qs';
+import {setFilterSetting} from '../store/filter-slice';
+import {AppStateType} from '../store/store';
 
 type PropsType = {
     searchValue: string
@@ -14,15 +17,22 @@ type PropsType = {
 
 export const Home: React.FC<PropsType> = ({searchValue}) => {
 
-    const categoryId = useSelector(selectCategoryId)
-    const sortType = useSelector(selectSortType)
-    const sortDirection = useSelector(selectSortDirection)
-    const currentPage = useSelector(selectCurrentPage)
+    const categoryId = useSelector<AppStateType, number>(state => state.filter.categoryId)
+    const sortType = useSelector<AppStateType, number>(state => state.filter.sortType)
+    const sortDirection = useSelector<AppStateType, SortDirectionType>(state => state.filter.sortDirection)
+    const currentPage = useSelector<AppStateType, number>(state => state.filter.currentPage)
 
     const [items, setItems] = useState<Array<ItemType>>([])
     const [isLoading, setIsLoading] = useState(false)
 
-    useEffect(() => {
+    const isSearch = useRef(false)
+    const isMounted = useRef(false)
+
+    const navigate = useNavigate()
+
+    const dispatch = useDispatch()
+
+    const fetchPizzas = () => {
         const sort = sortType === 0 ? 'rating' : sortType === 1 ? 'price' : 'title'
         setIsLoading(true)
         api.getItems(currentPage, categoryId, sort, sortDirection, searchValue)
@@ -30,6 +40,46 @@ export const Home: React.FC<PropsType> = ({searchValue}) => {
                 setItems([...res])
                 setIsLoading(false)
             })
+    }
+
+    useEffect(() => {
+        if (isMounted.current) {
+            const queryString = qs.stringify({
+                page: currentPage,
+                category: categoryId,
+                sortBy: sortType,
+                order: sortDirection
+            })
+            navigate(`?${queryString}`)
+        }
+        isMounted.current = true
+    }, [currentPage, categoryId, sortType, sortDirection, searchValue, navigate])
+
+    useEffect(() => {
+        if (window.location.search) {
+            const params = qs.parse(window.location.search.substring(1))
+
+            // const {page, category, sortBy, order} = params
+
+            const currentPage = Number(params.page)
+            const categoryId = Number(params.category)
+            const sortType = Number(params.sortBy)
+            const sortDirection = params.order
+
+            // @ts-ignore
+            dispatch(setFilterSetting({currentPage, categoryId, sortType, sortDirection}))
+
+            isSearch.current = true
+        }
+    }, [dispatch])
+
+
+    useEffect(() => {
+        if (!isSearch.current) {
+            // debugger
+            fetchPizzas()
+        }
+        isSearch.current = false
     }, [currentPage, categoryId, sortType, sortDirection, searchValue])
 
     const skeletons = [...new Array(8)].map((item, i) => <Skeleton key={i}/>)

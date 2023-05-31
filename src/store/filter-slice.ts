@@ -22,10 +22,17 @@ const slice = createSlice({
         },
         changeCurrentPage: (state, action: PayloadAction<{currentPage: number}>) => {
             state.currentPage = action.payload.currentPage
+        },
+        setFilterSetting: (state, action: PayloadAction<{currentPage: number, sortType: number,
+        categoryId: number, sortDirection: SortDirectionType}>) => {
+            state.currentPage = action.payload.currentPage
+            state.sortType = action.payload.sortType
+            state.categoryId = action.payload.categoryId
+            state.sortDirection = action.payload.sortDirection
         }
     }
 })
 
-export const {changeCategoryId, changeSortType, changeSortDirection, changeCurrentPage} = slice.actions
+export const {changeCategoryId, changeSortType, changeSortDirection, changeCurrentPage, setFilterSetting} = slice.actions
 
 export const filterSlice = slice.reducer
