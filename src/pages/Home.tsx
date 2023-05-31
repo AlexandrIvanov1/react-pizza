@@ -32,14 +32,17 @@ export const Home: React.FC<PropsType> = ({searchValue}) => {
 
     const dispatch = useDispatch()
 
-    const fetchPizzas = () => {
+    const fetchPizzas = async () => {
         const sort = sortType === 0 ? 'rating' : sortType === 1 ? 'price' : 'title'
         setIsLoading(true)
-        api.getItems(currentPage, categoryId, sort, sortDirection, searchValue)
-            .then(res => {
-                setItems([...res])
-                setIsLoading(false)
-            })
+        try {
+            const res = await api.getItems(currentPage, categoryId, sort, sortDirection, searchValue)
+            setItems([...res])
+            setIsLoading(false)
+        } catch (e: any) {
+            setIsLoading(false)
+            console.log(e.message)
+        }
     }
 
     useEffect(() => {
