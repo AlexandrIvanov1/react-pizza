@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import style from './Sort.module.css'
 import {SortDirectionType} from '../../api/api';
 import {useDispatch} from 'react-redux';
@@ -12,6 +12,8 @@ type PropsType = {
 export const Sort: React.FC<PropsType> = ({sortId, sortDirection}) => {
 
     const [showSort, setShowSort] = useState(false)
+
+    const sortRef = useRef<HTMLInputElement | null>(null)
 
     const dispatch = useDispatch()
 
@@ -30,8 +32,25 @@ export const Sort: React.FC<PropsType> = ({sortId, sortDirection}) => {
             : dispatch(changeSortDirection({sortDirection: 'asc'}))
     }
 
+    useEffect(() => {
+
+        const callback = (event: MouseEvent) => {
+            if (!sortRef.current) return
+            if (!event.composedPath().includes(sortRef.current)) {
+                console.log('click')
+                setShowSort(false)
+            }
+        }
+
+        document.body.addEventListener('click', callback)
+
+        return () => {
+            document.body.removeEventListener('click', callback)
+        }
+    }, [])
+
     return (
-        <div className="sort">
+        <div className="sort" ref={sortRef}>
             <div className="sort__label">
                 <svg
                     onClick={onChangeSortHandler}
