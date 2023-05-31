@@ -6,7 +6,15 @@
   margin-right: 10px;
 }
 
-.trash:hover {
-  color: black;
-  background-color: black;
+.trash {
+  width: 20px;
+  height: 20px;
+  background-color: gray;
+  mask-image: url("../../assets/img/trash.svg");
+  opacity: 0.6;
+  transition: all 0.15s ease-in-out;
+}
+
+.arrow {
+  margin-right: 12px;
 }
