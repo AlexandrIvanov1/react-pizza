@@ -1,19 +1,18 @@
-import React, {ChangeEvent, useCallback, useContext, useRef, useState} from 'react';
+import React, {ChangeEvent, useCallback, useRef, useState} from 'react';
 import styles from './Search.module.scss'
 import close from '../../assets/img/close.svg'
 import search from '../../assets/img/search.svg'
-import {SearchContext} from '../../App';
 import debounce from 'lodash.debounce'
+import {useDispatch} from 'react-redux';
+import {changeSearchValue} from '../../store/filter-slice';
 
-type PropsType = {}
-
-export const Search: React.FC<PropsType> = () => {
-
-    const {setSearchValue} = useContext(SearchContext)
+export const Search: React.FC = () => {
 
     const [inputValue, setInputValue] = useState('')
 
     const inputRef = useRef<HTMLInputElement | null>(null)
+
+    const dispath = useDispatch()
 
     // const debounce = (fn: Function, ms: number) => {
     //     let timerId: any;
@@ -30,12 +29,12 @@ export const Search: React.FC<PropsType> = () => {
 
     const clearInput = () => {
         setInputValue('')
-        setSearchValue('')
+        dispath(changeSearchValue({searchValue: ''}))
         inputRef.current?.focus()
     }
 
     const updateSearchValue = useCallback(debounce((value: string) => {
-        setSearchValue(value)
+        dispath(changeSearchValue({searchValue: value}))
     }, 200), [])
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {

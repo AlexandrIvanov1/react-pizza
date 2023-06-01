@@ -8,7 +8,8 @@ const slice = createSlice({
         categoryId: 0,
         sortType: 0,
         currentPage: 1,
-        sortDirection: 'asc' as SortDirectionType
+        sortDirection: 'asc' as SortDirectionType,
+        searchValue: ''
     },
     reducers: {
         changeCategoryId: (state, action: PayloadAction<{categoryId: number}>) => {
@@ -29,10 +30,13 @@ const slice = createSlice({
             state.sortType = action.payload.sortType
             state.categoryId = action.payload.categoryId
             state.sortDirection = action.payload.sortDirection
-        }
+        },
+        changeSearchValue: (state, action: PayloadAction<{searchValue: string}>) => {
+            state.searchValue = action.payload.searchValue
+        },
     }
 })
 
-export const {changeCategoryId, changeSortType, changeSortDirection, changeCurrentPage, setFilterSetting} = slice.actions
+export const {changeCategoryId, changeSortType, changeSortDirection, changeCurrentPage, setFilterSetting, changeSearchValue} = slice.actions
 
 export const filterSlice = slice.reducer

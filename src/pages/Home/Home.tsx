@@ -10,14 +10,11 @@ import {useNavigate} from 'react-router-dom';
 import qs from 'qs';
 import {setFilterSetting} from '../../store/filter-slice';
 import {AppStateType} from '../../store/store';
-import {fetchPizzas, StatusType} from '../../store/pizza-slice';
+import {fetchPizzas} from '../../store/pizza-slice';
 import styles from './Home.module.scss'
+import {selectStatus} from '../../store/pizza-selector';
 
-type PropsType = {
-    searchValue: string
-}
-
-export const Home: React.FC<PropsType> = ({searchValue}) => {
+export const Home: React.FC = () => {
 
     const categoryId = useSelector<AppStateType, number>(state => state.filter.categoryId)
     const sortType = useSelector<AppStateType, number>(state => state.filter.sortType)
@@ -25,7 +22,9 @@ export const Home: React.FC<PropsType> = ({searchValue}) => {
     const currentPage = useSelector<AppStateType, number>(state => state.filter.currentPage)
 
     const items = useSelector<AppStateType, Array<ItemType>>(state => state.pizza.items)
-    const status = useSelector<AppStateType, StatusType>(state => state.pizza.status)
+    const status = useSelector(selectStatus)
+
+    const searchValue = useSelector<AppStateType, string>(state => state.filter.searchValue)
 
     const isSearch = useRef(false)
     const isMounted = useRef(false)
