@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './scss/app.scss';
 import {Header} from './components/Header/Header';
 import {Route, Routes} from 'react-router-dom';
-import {Home} from './pages/Home';
+import {Home} from './pages/Home/Home';
 import {Cart} from './pages/Cart/Cart';
 import {NotFoundPage} from './pages/NotFoundPage';
 

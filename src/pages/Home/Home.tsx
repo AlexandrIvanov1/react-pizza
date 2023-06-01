@@ -1,15 +1,17 @@
-import {Categories} from '../components/Categories/Categories';
-import {Sort} from '../components/Sort/Sort';
-import {Skeleton} from '../components/PizzaBlock/Skeleton';
-import {PizzaBlock} from '../components/PizzaBlock/PizzaBlock';
-import React, {useEffect, useRef, useState} from 'react';
-import {api, ItemType, SortDirectionType} from '../api/api';
+import {Categories} from '../../components/Categories/Categories';
+import {Sort} from '../../components/Sort/Sort';
+import {Skeleton} from '../../components/PizzaBlock/Skeleton';
+import {PizzaBlock} from '../../components/PizzaBlock/PizzaBlock';
+import React, {useEffect, useRef} from 'react';
+import {ItemType, SortDirectionType} from '../../api/api';
 import {useDispatch, useSelector} from 'react-redux';
-import {Pagination} from '../components/Pagination/Pagination';
+import {Pagination} from '../../components/Pagination/Pagination';
 import {useNavigate} from 'react-router-dom';
 import qs from 'qs';
-import {setFilterSetting} from '../store/filter-slice';
-import {AppStateType} from '../store/store';
+import {setFilterSetting} from '../../store/filter-slice';
+import {AppStateType} from '../../store/store';
+import {fetchPizzas, StatusType} from '../../store/pizza-slice';
+import styles from './Home.module.scss'
 
 type PropsType = {
     searchValue: string
@@ -22,8 +24,8 @@ export const Home: React.FC<PropsType> = ({searchValue}) => {
     const sortDirection = useSelector<AppStateType, SortDirectionType>(state => state.filter.sortDirection)
     const currentPage = useSelector<AppStateType, number>(state => state.filter.currentPage)
 
-    const [items, setItems] = useState<Array<ItemType>>([])
-    const [isLoading, setIsLoading] = useState(false)
+    const items = useSelector<AppStateType, Array<ItemType>>(state => state.pizza.items)
+    const status = useSelector<AppStateType, StatusType>(state => state.pizza.status)
 
     const isSearch = useRef(false)
     const isMounted = useRef(false)
@@ -32,18 +34,12 @@ export const Home: React.FC<PropsType> = ({searchValue}) => {
 
     const dispatch = useDispatch()
 
-    const fetchPizzas = async () => {
+    const getPizzas = async () => {
         const sort = sortType === 0 ? 'rating' : sortType === 1 ? 'price' : 'title'
-        setIsLoading(true)
-        try {
-            const res = await api.getItems(currentPage, categoryId, sort, sortDirection, searchValue)
-            setItems([...res])
-            setIsLoading(false)
-        } catch (e: any) {
-            setIsLoading(false)
-            console.log(e.message)
-        }
+        // @ts-ignore
+        dispatch(fetchPizzas({currentPage, categoryId, sort, sortDirection, searchValue}))
     }
+
 
     useEffect(() => {
         if (isMounted.current) {
@@ -79,8 +75,7 @@ export const Home: React.FC<PropsType> = ({searchValue}) => {
 
     useEffect(() => {
         if (!isSearch.current) {
-            // debugger
-            fetchPizzas()
+            getPizzas()
         }
         isSearch.current = false
     }, [currentPage, categoryId, sortType, sortDirection, searchValue])
@@ -102,14 +97,23 @@ export const Home: React.FC<PropsType> = ({searchValue}) => {
                 />
 
             </div>
-            <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-                {
-                    isLoading
-                        ? skeletons
-                        : pizzas
-                }
-            </div>
+
+            {status !== 'error' && <h2 className="content__title">Все пиццы</h2>}
+
+            {
+                status === 'error'
+                    ? <div className={styles.errorBlock}>
+                        <h2>Ошибка!</h2>
+                        <p>Не удалось загрузить данные, попробуйте позже...</p>
+                    </div>
+                    :
+                    <div className="content__items">
+                        {status === 'loading'
+                            ? skeletons
+                            : pizzas}
+                    </div>
+            }
+
 
             <Pagination currentPage={currentPage}/>
 
