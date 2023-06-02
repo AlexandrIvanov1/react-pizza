@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../../assets/img/pizza-logo.svg'
-import {Link, NavLink} from 'react-router-dom';
+import {Link, NavLink, useLocation} from 'react-router-dom';
 import {Search} from '../Search/Search';
 import {useSelector} from 'react-redux';
 import {selectItems, selectTotalPrice} from '../../store/cart-selector';
@@ -10,8 +10,10 @@ import styles from './Header.module.scss'
 export const Header = () => {
 
     const items = useSelector(selectItems)
-    
+
     const totalPrice = useSelector(selectTotalPrice)
+
+    const location = useLocation()
 
     const totalCount = items.reduce((acc, res) => acc + res.count, 0)
 
@@ -21,20 +23,20 @@ export const Header = () => {
                 <div className="header__logo">
                     <img width="38" src={logo} alt="Pizza logo"/>
                     <div>
-                        <h1><Link to='/'>React Pizza</Link></h1>
+                        <h1><Link to="/">React Pizza</Link></h1>
                         <p>самая вкусная пицца во вселенной</p>
                     </div>
                 </div>
 
-                <Search />
+                <Search/>
 
                 <div className="header__cart">
-                    <NavLink to='cart' className="button button--cart">
+                    {location.pathname !== '/cart' && <NavLink to="cart" className="button button--cart">
                         <span>{totalPrice} ₽</span>
                         <div className="button__delimiter"></div>
                         <img src={cart} alt="cart" className={styles.cart}/>
                         <span>{totalCount}</span>
-                    </NavLink>
+                    </NavLink>}
                 </div>
             </div>
         </div>

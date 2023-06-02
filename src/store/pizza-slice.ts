@@ -13,6 +13,14 @@ export const fetchPizzas = createAsyncThunk('pizza/fetchPizzas', async (arg: Arg
         try {
             return await api.getItems(arg.currentPage, arg.categoryId, arg.sort, arg.sortDirection, arg.searchValue)
         } catch (e) {
+            return rejectWithValue(null)
+        }
+    }
+)
+export const getItem = createAsyncThunk('pizza/getItem', async (arg: {id: string}, {rejectWithValue}) => {
+        try {
+            return await api.getItem(arg.id)
+        } catch (e) {
             debugger
             return rejectWithValue(null)
         }
@@ -23,7 +31,8 @@ const slice = createSlice({
     name: 'pizza',
     initialState: {
         items: [] as Array<ItemType>,
-        status: 'error' as StatusType
+        item: {} as ItemType | null,
+        status: 'loading' as StatusType
     },
     reducers: {},
     extraReducers: builder => {
@@ -38,6 +47,17 @@ const slice = createSlice({
         builder.addCase(fetchPizzas.rejected, (state) => {
             state.status = 'error'
             state.items = []
+        })
+        builder.addCase(getItem.pending, (state) => {
+            state.status = 'loading'
+        })
+        builder.addCase(getItem.fulfilled, (state, action) => {
+            state.item = action.payload
+            state.status = 'success'
+        })
+        builder.addCase(getItem.rejected, (state) => {
+            state.item = null
+            state.status = 'error'
         })
     }
 })

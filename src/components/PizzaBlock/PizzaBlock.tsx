@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {addItem, ItemEntityType} from '../../store/cart-slice';
-import {AppStateType} from '../../store/store';
+import {AppStateType, useAppDispatch} from '../../store/store';
 import {selectItems} from '../../store/cart-selector';
 import styles from './PizzaBlock.module.scss'
+import {Link} from 'react-router-dom';
 
 type PropsType = {
-    id: number
+    id: string
     title: string
     price: number
     imageUrl: string
@@ -27,7 +28,7 @@ export const PizzaBlock: React.FC<PropsType> = (props) => {
 
     const itemsArray = useSelector<AppStateType, Array<ItemEntityType>>(selectItems)
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const addItemCallback = () => {
         dispatch(addItem({item: props}))
@@ -39,11 +40,13 @@ export const PizzaBlock: React.FC<PropsType> = (props) => {
 
     return (
         <div className="pizza-block">
-            <img
-                className="pizza-block__image"
-                src={imageUrl}
-                alt="Pizza"
-            />
+            <Link to={`/pizza/${id}`}>
+                <img
+                    className="pizza-block__image"
+                    src={imageUrl}
+                    alt="Pizza"
+                />
+            </Link>
             <h4 className="pizza-block__title">{title}</h4>
             <div className="pizza-block__selector">
                 <ul>

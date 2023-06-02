@@ -1,0 +1,37 @@
+.loading {
+    margin-bottom: 20px;
+}
+
+.img {
+    width: 200px;
+    height: 200px;
+}
+
+.title {
+    margin-bottom: 10px;
+}
+
+.price {
+    margin-bottom: 10px;
+}
+
+.button {
+    display: inline-block;
+    border-radius: 30px;
+    padding: 10px 20px;
+    min-width: 100px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    border: 1px solid #fe5f1e;
+    user-select: none;
+    background-color: #fff;
+    color: #fe5f1e;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.button:hover {
+    background-color: #fe5f1e;
+    color: #fff;
+}

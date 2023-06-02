@@ -1,15 +1,22 @@
 import axios from 'axios';
 
+const instance = axios.create({
+    baseURL: 'https://646cf83d7b42c06c3b2c5b7d.mockapi.io/'
+})
+
 export const api = {
     getItems: (currentPage: number, categoryId: number, sortType: string, sortDirection: SortDirectionType, searchValue: string) => {
-        return axios.get<Array<ItemType>>(
-            `https://646cf83d7b42c06c3b2c5b7d.mockapi.io/items?page=${currentPage}&limit=4&${categoryId ? `category=${categoryId}&` : ''}sortBy=${sortType}&order=${sortDirection}&search=${searchValue}`)
+        return instance.get<Array<ItemType>>(
+            `items?page=${currentPage}&limit=4&${categoryId ? `category=${categoryId}&` : ''}sortBy=${sortType}&order=${sortDirection}&search=${searchValue}`)
             .then(res => res.data)
+    },
+    getItem: (id: string) => {
+        return instance.get<ItemType>(`items/${id}`).then(res => res.data)
     }
 }
 
 export type ItemType = {
-    id: number
+    id: string
     title: string
     price: number
     imageUrl: string
