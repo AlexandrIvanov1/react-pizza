@@ -4,12 +4,12 @@ import {Skeleton} from '../../components/PizzaBlock/Skeleton';
 import {PizzaBlock} from '../../components/PizzaBlock/PizzaBlock';
 import React, {useEffect, useRef} from 'react';
 import {ItemType, SortDirectionType} from '../../api/api';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Pagination} from '../../components/Pagination/Pagination';
 import {useNavigate} from 'react-router-dom';
 import qs from 'qs';
 import {setFilterSetting} from '../../store/filter-slice';
-import {AppStateType} from '../../store/store';
+import {AppStateType, useAppDispatch} from '../../store/store';
 import {fetchPizzas} from '../../store/pizza-slice';
 import styles from './Home.module.scss'
 import {selectStatus} from '../../store/pizza-selector';
@@ -31,11 +31,10 @@ export const Home: React.FC = () => {
 
     const navigate = useNavigate()
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const getPizzas = async () => {
         const sort = sortType === 0 ? 'rating' : sortType === 1 ? 'price' : 'title'
-        // @ts-ignore
         dispatch(fetchPizzas({currentPage, categoryId, sort, sortDirection, searchValue}))
     }
 

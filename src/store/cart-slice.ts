@@ -22,7 +22,7 @@ const slice = createSlice({
                 return (res.price * res.count) + acc
             }, 0)
         },
-        removeItem: (state, action: PayloadAction<{id: number}>) => {
+        removeItem: (state, action: PayloadAction<{id: string}>) => {
             const findItem = state.items.find(item => item.id === action.payload.id)
 
             if (findItem) {
@@ -35,7 +35,7 @@ const slice = createSlice({
                 return (res.price * res.count) + acc
             }, 0)
         },
-        removeItems: (state, action: PayloadAction<{id: number}>) => {
+        removeItems: (state, action: PayloadAction<{id: string}>) => {
             state.items = state.items.filter(item => item.id !== action.payload.id)
             state.totalPrice = state.items.reduce((acc, res) => {
                 return (res.price * res.count) + acc

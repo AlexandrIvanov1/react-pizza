@@ -37,7 +37,6 @@ export const Sort: React.FC<PropsType> = ({sortId, sortDirection}) => {
         const callback = (event: MouseEvent) => {
             if (!sortRef.current) return
             if (!event.composedPath().includes(sortRef.current)) {
-                console.log('click')
                 setShowSort(false)
             }
         }
