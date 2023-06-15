@@ -10,7 +10,7 @@ import {useNavigate} from 'react-router-dom';
 import qs from 'qs';
 import {setFilterSetting} from '../../store/filter-slice';
 import {AppStateType, useAppDispatch} from '../../store/store';
-import {fetchPizzas} from '../../store/pizza-slice';
+import {fetchPizzas, FetchPizzasArgType} from '../../store/pizza-slice';
 import styles from './Home.module.scss'
 import {selectStatus} from '../../store/pizza-selector';
 
@@ -38,7 +38,6 @@ export const Home: React.FC = () => {
         dispatch(fetchPizzas({currentPage, categoryId, sort, sortDirection, searchValue}))
     }
 
-
     useEffect(() => {
         if (isMounted.current) {
             const queryString = qs.stringify({
@@ -49,8 +48,11 @@ export const Home: React.FC = () => {
             })
             navigate(`?${queryString}`)
         }
+        if (!window.location.search) {
+            dispatch(fetchPizzas({} as FetchPizzasArgType))
+        }
         isMounted.current = true
-    }, [currentPage, categoryId, sortType, sortDirection, searchValue, navigate])
+    }, [currentPage, categoryId, sortType, sortDirection, searchValue])
 
     useEffect(() => {
         if (window.location.search) {
@@ -61,20 +63,16 @@ export const Home: React.FC = () => {
             const currentPage = Number(params.page)
             const categoryId = Number(params.category)
             const sortType = Number(params.sortBy)
-            const sortDirection = params.order
+            const sortDirection = params.order as SortDirectionType
 
-            // @ts-ignore
             dispatch(setFilterSetting({currentPage, categoryId, sortType, sortDirection}))
 
             isSearch.current = true
         }
-    }, [dispatch])
-
+    }, [])
 
     useEffect(() => {
-        if (!isSearch.current) {
-            getPizzas()
-        }
+        getPizzas()
         isSearch.current = false
     }, [currentPage, categoryId, sortType, sortDirection, searchValue])
 

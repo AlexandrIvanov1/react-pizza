@@ -40,7 +40,7 @@ export const PizzaItem = () => {
                 : <div>
                     <img src={item.imageUrl} alt="pizza" className={styles.img}/>
                     <h3 className={styles.title}>{item.title}</h3>
-                    <h4 className={styles.price}>{item.price}</h4>
+                    <h4 className={styles.price}>{item.price} Р</h4>
                     <button onClick={() => navigate(-1)} className={styles.button}>Назад</button>
                 </div>
             }

@@ -12,7 +12,7 @@ export const Search: React.FC = () => {
 
     const inputRef = useRef<HTMLInputElement | null>(null)
 
-    const dispath = useDispatch()
+    const dispatch = useDispatch()
 
     // const debounce = (fn: Function, ms: number) => {
     //     let timerId: any;
@@ -29,12 +29,12 @@ export const Search: React.FC = () => {
 
     const clearInput = () => {
         setInputValue('')
-        dispath(changeSearchValue({searchValue: ''}))
+        dispatch(changeSearchValue({searchValue: ''}))
         inputRef.current?.focus()
     }
 
     const updateSearchValue = useCallback(debounce((value: string) => {
-        dispath(changeSearchValue({searchValue: value}))
+        dispatch(changeSearchValue({searchValue: value}))
     }, 200), [])
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {

@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {api, ItemType, SortDirectionType} from '../api/api';
 
-type ArgType = {
+export type FetchPizzasArgType = {
     currentPage: number,
     categoryId: number
     sort: string
@@ -9,7 +9,13 @@ type ArgType = {
     searchValue: string
 }
 
-export const fetchPizzas = createAsyncThunk('pizza/fetchPizzas', async (arg: ArgType, {rejectWithValue}) => {
+enum StatusesEnum {
+    Loading = 'loading',
+    Success = 'success',
+    Error = 'error'
+}
+
+export const fetchPizzas = createAsyncThunk('pizza/fetchPizzas', async (arg: FetchPizzasArgType, {rejectWithValue}) => {
         try {
             return await api.getItems(arg.currentPage, arg.categoryId, arg.sort, arg.sortDirection, arg.searchValue)
         } catch (e) {
@@ -21,7 +27,6 @@ export const getItem = createAsyncThunk('pizza/getItem', async (arg: {id: string
         try {
             return await api.getItem(arg.id)
         } catch (e) {
-            debugger
             return rejectWithValue(null)
         }
     }
@@ -32,36 +37,34 @@ const slice = createSlice({
     initialState: {
         items: [] as Array<ItemType>,
         item: {} as ItemType | null,
-        status: 'loading' as StatusType
+        status: StatusesEnum.Loading
     },
     reducers: {},
     extraReducers: builder => {
         builder.addCase(fetchPizzas.pending, (state) => {
-            state.status = 'loading'
+            state.status = StatusesEnum.Loading
             state.items = []
         })
         builder.addCase(fetchPizzas.fulfilled, (state, action) => {
-            state.status = 'success'
+            state.status = StatusesEnum.Success
             state.items = action.payload
         })
         builder.addCase(fetchPizzas.rejected, (state) => {
-            state.status = 'error'
+            state.status = StatusesEnum.Error
             state.items = []
         })
         builder.addCase(getItem.pending, (state) => {
-            state.status = 'loading'
+            state.status = StatusesEnum.Loading
         })
         builder.addCase(getItem.fulfilled, (state, action) => {
             state.item = action.payload
-            state.status = 'success'
+            state.status = StatusesEnum.Success
         })
         builder.addCase(getItem.rejected, (state) => {
             state.item = null
-            state.status = 'error'
+            state.status = StatusesEnum.Error
         })
     }
 })
 
 export const pizzaSlice = slice.reducer
-
-export type StatusType = 'loading' | 'success' | 'error'
