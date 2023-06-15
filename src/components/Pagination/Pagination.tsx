@@ -9,7 +9,7 @@ type PropsType = {
 }
 
 
-export const Pagination: React.FC<PropsType> = ({currentPage}) => {
+export const Pagination: React.FC<PropsType> = React.memo(({currentPage}) => {
 
     const dispatch = useDispatch()
 
@@ -32,4 +32,4 @@ export const Pagination: React.FC<PropsType> = ({currentPage}) => {
             />
         </>
     )
-}
+})

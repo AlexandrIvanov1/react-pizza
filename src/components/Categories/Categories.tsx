@@ -6,7 +6,7 @@ type PropsType = {
     category: number
 }
 
-export const Categories: React.FC<PropsType> = ({category}) => {
+export const Categories: React.FC<PropsType> = React.memo(({category}) => {
 
     const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
@@ -28,4 +28,4 @@ export const Categories: React.FC<PropsType> = ({category}) => {
             </ul>
         </div>
     )
-}
+})

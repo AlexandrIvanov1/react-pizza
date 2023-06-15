@@ -9,7 +9,7 @@ type PropsType = {
     sortDirection: SortDirectionType
 }
 
-export const Sort: React.FC<PropsType> = ({sortId, sortDirection}) => {
+export const Sort: React.FC<PropsType> = React.memo(({sortId, sortDirection}) => {
 
     const [showSort, setShowSort] = useState(false)
 
@@ -82,4 +82,4 @@ export const Sort: React.FC<PropsType> = ({sortId, sortDirection}) => {
             }
         </div>
     )
-}
+})

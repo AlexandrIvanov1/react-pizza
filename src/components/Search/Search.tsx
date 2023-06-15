@@ -6,7 +6,7 @@ import debounce from 'lodash.debounce'
 import {useDispatch} from 'react-redux';
 import {changeSearchValue} from '../../store/filter-slice';
 
-export const Search: React.FC = () => {
+export const Search: React.FC = React.memo(() => {
 
     const [inputValue, setInputValue] = useState('')
 
@@ -35,7 +35,7 @@ export const Search: React.FC = () => {
 
     const updateSearchValue = useCallback(debounce((value: string) => {
         dispatch(changeSearchValue({searchValue: value}))
-    }, 200), [])
+    }, 500), [])
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.currentTarget.value)
@@ -56,4 +56,4 @@ export const Search: React.FC = () => {
             {inputValue && <img src={close} alt="close" className={styles.iconClose} onClick={clearInput}/>}
         </div>
     )
-}
+})

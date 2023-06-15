@@ -7,7 +7,7 @@ import {selectItems, selectTotalPrice} from '../../store/cart-selector';
 import cart from '../../assets/img/whiteCart.svg'
 import styles from './Header.module.scss'
 
-export const Header = () => {
+export const Header = React.memo(() => {
 
     const items = useSelector(selectItems)
 
@@ -28,7 +28,7 @@ export const Header = () => {
                     </div>
                 </div>
 
-                <Search/>
+                {location.pathname === '/' && <Search/>}
 
                 <div className="header__cart">
                     {location.pathname !== '/cart' && <NavLink to="cart" className="button button--cart">
@@ -41,4 +41,4 @@ export const Header = () => {
             </div>
         </div>
     )
-}
+})
