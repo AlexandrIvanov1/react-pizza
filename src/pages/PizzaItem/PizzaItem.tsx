@@ -7,7 +7,7 @@ import {AppStateType, useAppDispatch} from '../../store/store';
 import styles from './PizzaItem.module.scss'
 import {selectStatus} from '../../store/pizza/pizza-selector';
 
-export const PizzaItem = () => {
+const PizzaItem = () => {
 
     const {id} = useParams()
     const navigate = useNavigate()
@@ -47,3 +47,5 @@ export const PizzaItem = () => {
         </div>
     )
 }
+
+export default PizzaItem;

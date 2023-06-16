@@ -10,7 +10,7 @@ import arrow from '../../assets/img/grey-arrow-left.svg'
 import styles from './Cart.module.scss'
 import {EmptyCart} from '../../components/EmptyCart/EmptyCart';
 
-export const Cart = () => {
+const Cart = () => {
 
     const items = useSelector<AppStateType, Array<ItemEntityType>>(selectItems)
     const totalPrice = useSelector<AppStateType, number>(selectTotalPrice)
@@ -64,3 +64,5 @@ export const Cart = () => {
         </div>
     )
 }
+
+export default Cart;
