@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import style from './Sort.module.css'
 import {SortDirectionType} from '../../api/api';
 import {useDispatch} from 'react-redux';
-import {changeSortDirection, changeSortType} from '../../store/filter-slice';
+import {changeSortDirection, changeSortType} from '../../store/filter/filter-slice';
 
 type PropsType = {
     sortId: number

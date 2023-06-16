@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {SortDirectionType} from '../api/api';
+import {SortDirectionType} from '../../api/api';
 
 
 const slice = createSlice({

@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {ItemType} from '../../api/api';
-import {getItem} from '../../store/pizza-slice';
+import {getItem} from '../../store/pizza/pizza-slice';
 import {useSelector} from 'react-redux';
 import {AppStateType, useAppDispatch} from '../../store/store';
 import styles from './PizzaItem.module.scss'
-import {selectStatus} from '../../store/pizza-selector';
+import {selectStatus} from '../../store/pizza/pizza-selector';
 
 export const PizzaItem = () => {
 

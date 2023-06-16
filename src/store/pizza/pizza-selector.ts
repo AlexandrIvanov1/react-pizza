@@ -1,4 +1,4 @@
-import {AppStateType} from './store';
+import {AppStateType} from '../store';
 
 
 export const selectPizzas = (state: AppStateType) => state.pizza.items

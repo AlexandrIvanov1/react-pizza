@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {api, ItemType, SortDirectionType} from '../api/api';
+import {api, ItemType, SortDirectionType} from '../../api/api';
 
 export type FetchPizzasArgType = {
     currentPage: number,

@@ -1,7 +1,7 @@
 import {AnyAction, combineReducers, configureStore, ThunkDispatch} from '@reduxjs/toolkit'
-import {filterSlice} from './filter-slice';
-import {cartSlice} from './cart-slice';
-import {pizzaSlice} from './pizza-slice';
+import {filterSlice} from './filter/filter-slice';
+import {cartSlice} from './cart/cart-slice';
+import {pizzaSlice} from './pizza/pizza-slice';
 import {useDispatch} from 'react-redux';
 // @ts-ignore
 import storage from 'redux-persist/es/storage';

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
-import {addItem, ItemEntityType} from '../../store/cart-slice';
+import {addItem, ItemEntityType} from '../../store/cart/cart-slice';
 import {AppStateType, useAppDispatch} from '../../store/store';
-import {selectItems} from '../../store/cart-selector';
+import {selectItems} from '../../store/cart/cart-selector';
 import styles from './PizzaBlock.module.scss'
 import {Link} from 'react-router-dom';
 

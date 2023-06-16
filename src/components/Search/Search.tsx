@@ -4,7 +4,7 @@ import close from '../../assets/img/close.svg'
 import search from '../../assets/img/search.svg'
 import debounce from 'lodash.debounce'
 import {useDispatch} from 'react-redux';
-import {changeSearchValue} from '../../store/filter-slice';
+import {changeSearchValue} from '../../store/filter/filter-slice';
 
 export const Search: React.FC = React.memo(() => {
 

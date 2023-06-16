@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {ItemType} from '../api/api';
+import {ItemType} from '../../api/api';
 
 
 const slice = createSlice({

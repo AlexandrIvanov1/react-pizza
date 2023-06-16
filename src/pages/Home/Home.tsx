@@ -8,11 +8,11 @@ import {useSelector} from 'react-redux';
 import {Pagination} from '../../components/Pagination/Pagination';
 import {useNavigate} from 'react-router-dom';
 import qs from 'qs';
-import {setFilterSetting} from '../../store/filter-slice';
+import {setFilterSetting} from '../../store/filter/filter-slice';
 import {AppStateType, useAppDispatch} from '../../store/store';
-import {fetchPizzas} from '../../store/pizza-slice';
+import {fetchPizzas} from '../../store/pizza/pizza-slice';
 import styles from './Home.module.scss'
-import {selectStatus} from '../../store/pizza-selector';
+import {selectStatus} from '../../store/pizza/pizza-selector';
 
 export const Home: React.FC = () => {
 
@@ -48,9 +48,9 @@ export const Home: React.FC = () => {
             })
             navigate(`?${queryString}`)
         }
-        if (!window.location.search) {
-            dispatch(fetchPizzas({currentPage: 1, categoryId: 0, sort: '0', sortDirection: 'asc', searchValue: ''}))
-        }
+        // if (!window.location.search) {
+        //     dispatch(fetchPizzas({currentPage: 1, categoryId: 0, sort: '0', sortDirection: 'asc', searchValue: ''}))
+        // }
         isMounted.current = true
     }, [currentPage, categoryId, sortType, sortDirection, searchValue])
 

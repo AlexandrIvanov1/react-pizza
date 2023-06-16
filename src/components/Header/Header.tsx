@@ -3,7 +3,7 @@ import logo from '../../assets/img/pizza-logo.svg'
 import {Link, NavLink, useLocation} from 'react-router-dom';
 import {Search} from '../Search/Search';
 import {useSelector} from 'react-redux';
-import {selectItems, selectTotalPrice} from '../../store/cart-selector';
+import {selectItems, selectTotalPrice} from '../../store/cart/cart-selector';
 import cart from '../../assets/img/whiteCart.svg'
 import styles from './Header.module.scss'
 
