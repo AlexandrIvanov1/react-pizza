@@ -1,11 +1,7 @@
-import {Categories} from '../../components/Categories/Categories';
-import {Sort} from '../../components/Sort/Sort';
-import {Skeleton} from '../../components/PizzaBlock/Skeleton';
-import {PizzaBlock} from '../../components/PizzaBlock/PizzaBlock';
 import React, {useEffect, useRef} from 'react';
 import {ItemType, SortDirectionType} from '../../api/api';
 import {useSelector} from 'react-redux';
-import {Pagination} from '../../components/Pagination/Pagination';
+import {Categories, Pagination, PizzaBlock, Skeleton, Sort} from '../../components';
 import {useNavigate} from 'react-router-dom';
 import qs from 'qs';
 import {setFilterSetting} from '../../store/filter/filter-slice';

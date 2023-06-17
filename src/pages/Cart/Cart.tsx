@@ -4,11 +4,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {selectItems, selectTotalPrice} from '../../store/cart/cart-selector';
 import {AppStateType} from '../../store/store';
 import {clearCart, ItemEntityType} from '../../store/cart/cart-slice';
-import {CartItem} from '../../components/CartItem/CartItem';
 import cart from '../../assets/img/cart.svg'
 import arrow from '../../assets/img/grey-arrow-left.svg'
 import styles from './Cart.module.scss'
-import {EmptyCart} from '../../components/EmptyCart/EmptyCart';
+import {CartItem, EmptyCart} from '../../components';
 
 const Cart = () => {
 

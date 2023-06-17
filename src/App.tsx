@@ -4,9 +4,9 @@ import {Route, Routes} from 'react-router-dom';
 import {Home} from './pages/Home/Home';
 import {Layout} from './pages/Layout';
 
-const Cart = React.lazy(() => import('./pages/Cart/Cart'))
-const PizzaItem = React.lazy(() => import('./pages/PizzaItem/PizzaItem'))
-const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'))
+const Cart = React.lazy(() => import( /* webpackChunkName: "Cart" */ './pages/Cart/Cart'))
+const PizzaItem = React.lazy(() => import( /* webpackChunkName: "PizzaItem" */ './pages/PizzaItem/PizzaItem'))
+const NotFoundPage = React.lazy(() => import( /* webpackChunkName: "NotFoundPage " */ './pages/NotFoundPage'))
 
 const CreateSuspenseComponent = (Component: ReactNode) => {
     return <Suspense fallback={<div className='suspense-fallback'>Загрузка</div>}>{Component}</Suspense>
